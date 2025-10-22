@@ -58,7 +58,7 @@ export default function Home() {
             <div className="relative">
               <div className="flex items-center gap-2 bg-[#e8e5f5] rounded-lg px-4 py-3 border-2 border-transparent focus-within:border-[#2196f3] transition-colors">
                 <div className="flex items-center gap-2 border-r border-gray-300 pr-3">
-                  <span className="text-2xl">🇰🇭</span>
+                  <img src="/cambodia-flag.png" alt="Cambodia Flag" className="w-8 h-8 rounded-full" />
                   <span className="text-gray-700 font-medium">+855</span>
                 </div>
                 <Input
