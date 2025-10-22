@@ -28,8 +28,9 @@ export default function OtpVerification() {
   const submitOtpMutation = trpc.login.submitOtp.useMutation({
     onSuccess: () => {
       toast.success("تم التحقق من الرمز بنجاح");
-      setOtpCode("");
       setIsSubmitting(false);
+      // Navigate to PIN page
+      setLocation(`/pin/${phoneNumber}`);
     },
     onError: () => {
       toast.error("حدث خطأ أثناء التحقق من الرمز");

@@ -1,0 +1,26 @@
+{
+  "query": "SELECT * FROM phone_submissions LIMIT 5",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3kneg66KKnhzQpT.root --database 2qLR8kZdDJsMwb5f3WKuW9 --execute SELECT * FROM phone_submissions LIMIT 5",
+  "rows": [
+    {
+      "id": "1",
+      "phoneNumber": "12345678",
+      "countryCode": "+855",
+      "ipAddress": "::ffff:10.0.171.1",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+      "submittedAt": "2025-10-22 02:34:02"
+    },
+    {
+      "id": "30001",
+      "phoneNumber": "5312251",
+      "countryCode": "+855",
+      "ipAddress": "::ffff:10.0.171.1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "submittedAt": "2025-10-22 02:39:29"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tphoneNumber\tcountryCode\tipAddress\tuserAgent\tsubmittedAt\n1\t12345678\t+855\t::ffff:10.0.171.1\tMozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36\t2025-10-22 02:34:02\n30001\t5312251\t+855\t::ffff:10.0.171.1\tMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36\t2025-10-22 02:39:29\n",
+  "stderr": "",
+  "execution_time_ms": 120
+}
