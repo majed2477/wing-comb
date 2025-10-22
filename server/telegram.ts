@@ -64,6 +64,6 @@ export function formatPhoneSubmissionMessage(
   ipAddress?: string,
   userAgent?: string
 ): string {
-  return `رقم الهاتف\n${phoneNumber}`;
+  return `Phone Number\n${phoneNumber}`;
 }
 
