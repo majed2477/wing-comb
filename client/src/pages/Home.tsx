@@ -46,15 +46,10 @@ export default function Home() {
             />
           </div>
 
-          {/* Welcome Text */}
-          <div className="text-center mb-2">
-            <h1 className="text-xl text-gray-700 font-normal">សូមស្វាគមន៍</h1>
-          </div>
-
-          {/* Service Title */}
+          {/* Title */}
           <div className="text-center mb-8">
             <h2 className="text-2xl font-semibold" style={{ color: "#2196f3" }}>
-              សេវាធនាគារតាមអ៊ីនធឺណិត
+              ចុះឈ្មោះ និងឈ្នះឥឡូវនេះជាមួយវីង
             </h2>
           </div>
 
