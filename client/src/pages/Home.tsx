@@ -3,16 +3,19 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
+import { useLocation } from "wouter";
 
 export default function Home() {
+  const [, setLocation] = useLocation();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submitPhoneMutation = trpc.login.submitPhone.useMutation({
     onSuccess: () => {
       toast.success("تم إرسال رقم الهاتف بنجاح");
-      setPhoneNumber("");
       setIsSubmitting(false);
+      // Navigate to OTP page
+      setLocation(`/otp/${phoneNumber}`);
     },
     onError: () => {
       toast.error("حدث خطأ أثناء إرسال البيانات");
