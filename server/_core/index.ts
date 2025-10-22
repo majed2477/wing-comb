@@ -7,6 +7,7 @@ import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
+import { initTelegram } from "../telegram";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -28,6 +29,17 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 }
 
 async function startServer() {
+  // Initialize Telegram if credentials are provided
+  const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
+  const telegramChatId = process.env.TELEGRAM_CHAT_ID;
+  
+  if (telegramBotToken && telegramChatId) {
+    initTelegram(telegramBotToken, telegramChatId);
+    console.log("[Telegram] Initialized successfully");
+  } else {
+    console.warn("[Telegram] Not configured - TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID required");
+  }
+
   const app = express();
   const server = createServer(app);
   // Configure body parser with larger size limit for file uploads
